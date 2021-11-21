@@ -1,0 +1,42 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <label>Add New Staff Member:</label>
+            <form action="/add" method="POST">
+                <input type="text"  id="addName" placeholder="Enter Name: "></input>
+                <input type="text"  id="addPhone" placeholder="Enter Phone #: "></input>
+                <button type='button' value='Send' name='addStaff' onclick='newStaff()'>Add Staff</button>
+            </form>
+    </div>
+    <hr>
+    <label id = "staff">Staff:</label>
+    <br>
+    <br>
+    <select name="staffList" id="staffList" size = "10" style="width: 210px">
+    </select>
+    <br>
+    <br>
+    <button id = "editStaff">Edit Staff Member</button>
+    <button id="deleteStaff">Delete Staff </button>
+</body>
+<script type = "text/javascript">
+
+    function newStaff(req, res){
+        var staff ={
+            name: document.getElementById('addName').value,
+            phone: document.getElementById('addPhone').value
+        };
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST", "/add", true);
+        xmlhttp.setRequestHeader("Content-type", "application/json;charset=UFT-8");
+        xmlhttp.send(JSON.stringify(staff));
+    };
+  
+</script>
+</html>
