@@ -15,15 +15,27 @@
             </form>
     </div>
     <hr>
-    <label id = "staff">Staff:</label>
+    <table >
+        <tr>
+          <th>Name:</th>
+          <th>Price:</th>
+        
+        </tr>
+      
+      </table>
+      <p  id="staffList"></p>
     <br>
     <br>
-    <select name="staffList" id="staffList" size = "10" style="width: 210px">
-    </select>
-    <br>
-    <br>
-    <button id = "editStaff">Edit Staff Member</button>
-    <button id="deleteStaff">Delete Staff </button>
+    <div class='removeDrink'>
+        <h1>Delete Item</h1>
+        <label >Name:</label>
+        <input type='text' id='removeItems' />
+        <button type='button' value='Send' name='removeItem' onclick='removeItem()'>
+            Delete
+        </button>
+      
+    </div>
+
 </body>
 <script type = "text/javascript">
 
@@ -37,6 +49,39 @@
         xmlhttp.setRequestHeader("Content-type", "application/json;charset=UFT-8");
         xmlhttp.send(JSON.stringify(staff));
     };
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+    
+                    myObj = JSON.parse(xmlhttp.responseText);
+    
+    
+                    var table = "<table border='1' id='menu-table' >"
+                    for (x in myObj) {
+                        table += "<tr> <td class=\"center\"> " + myObj[x].StaffName + "</td> <td class=\"center\">" + myObj[x].StaffPhone + "</td> </tr>";
+                    }
+                    table += "</table>"
+                    document.getElementById("staffList").innerHTML = table;
+                };
+    }                
+         xmlhttp.open("GET", "/staffList", true);
+         xmlhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+         xmlhttp.send();
   
+         function removeItem(req, res){
+            var product = {
+                name: document.getElementById('removeItems').value,
+            };
+            console.log(document.getElementById('removeItems').value);
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("removeDrink").innerHTML = this.responseText;
+                };
+            };
+            xmlhttp.open("POST", "/removeItem", true);
+            xmlhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+            xmlhttp.send(JSON.stringify(product));
+        };
 </script>
 </html>

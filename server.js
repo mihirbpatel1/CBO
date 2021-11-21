@@ -10,7 +10,7 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "root",
+    password: "Th6iynrmmu7",
     database: "CBO"
   });
   
@@ -35,6 +35,13 @@ app.get('/staff', (req,res)=>{
   res.sendFile(path.join(__dirname + '/staff.html'));
 } );
 
+app.get('/staffList' , (req, res)=> {
+  var viewDB = 'SELECT * FROM staff';
+  con.query(viewDB,(err, result )=>{
+   res.json(result);
+  });
+})
+
 app.post('/add', function(req, res){
     var name= req.body.name;
     var phoneNum= req.body.phone;
@@ -47,7 +54,21 @@ app.post('/add', function(req, res){
      };
     });
     console.log(req.body);
+    
 } );
+app.post('/removeItem', (req, res) =>{
+  var Item = req.body.name.trim();
+
+  var sql = 'DELETE FROM staff WHERE StaffName = ?'
+  console.log(Item);
+  con.query(sql, Item, (err, result) =>{
+    if (err) {
+      console.log(err)
+
+    };
+     
+  });
+})
 
 
 
