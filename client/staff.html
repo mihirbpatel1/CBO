@@ -6,6 +6,7 @@
     <title>Document</title>
 </head>
 <body>
+    <a href="/person.html" >Register Person</a>
     <div>
         <label>Add New Staff Member:</label>
             <form action="/add" method="POST">
@@ -18,7 +19,7 @@
     <table >
         <tr>
           <th>Name:</th>
-          <th>Price:</th>
+          <th>Phone #:</th>
         
         </tr>
       
@@ -33,7 +34,17 @@
         <button type='button' value='Send' name='removeItem' onclick='removeItem()'>
             Delete
         </button>
+
       
+    </div>
+    <div class='updateDrink'>
+        <label >Name:</label>
+        <input type='text' id='updateItems' />
+        <label >New Name:</label>
+        <input type='text' id='newNames' />
+        <button type='button' value='Send' name='updateItem' onclick='updateItem()'>
+            Update
+        </button>
     </div>
 
 </body>
@@ -80,6 +91,22 @@
                 };
             };
             xmlhttp.open("POST", "/removeItem", true);
+            xmlhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+            xmlhttp.send(JSON.stringify(product));
+        };
+        function updateItem(req, res){
+            var product = {
+                name: document.getElementById('updateItems').value,
+                newName: document.getElementById('newNames').value
+            };
+            console.log(document.getElementById('updateItems').value);
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("updateDrink").innerHTML = this.responseText;
+                };
+            };
+            xmlhttp.open("PATCH", "/update", true);
             xmlhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
             xmlhttp.send(JSON.stringify(product));
         };

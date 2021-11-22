@@ -7,7 +7,80 @@
 </head>
 <body>
     <div>
+        <label>Add New Customer:</label>
+            <form action="/add" method="POST">
+                <input type="text"  id="addName" placeholder="Enter Name: "></input>
+                <input type="text"  id="addPhone" placeholder="Enter Phone #: "></input>
+                <button type='button' value='Send' name='addPerson' onclick='newPerson()'>Add Person</button>
+            </form>
+    </div>
+    <hr>
+    <table >
+        <tr>
+          <th>Name:</th>
+          <th>Phone #:</th>
         
+        </tr>
+      
+      </table>
+      <p  id="PersonList"></p>
+    <br>
+    <br>
+    <div class='removePerson'>
+        <h1>Delete Item</h1>
+        <label >Name:</label>
+        <input type='text' id='removeCustomer' />
+        <button type='button' value='Send' name='removePerson' onclick='removePerson()'>
+            Delete
+        </button>
+
+      
     </div>
 </body>
+
+<script>
+    function newPerson(req, res){
+        var person ={
+            name: document.getElementById('addName').value,
+            phone: document.getElementById('addPhone').value
+        };
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST", "/addPerson", true);
+        xmlhttp.setRequestHeader("Content-type", "application/json;charset=UFT-8");
+        xmlhttp.send(JSON.stringify(person));
+    };
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+    
+                    myObj = JSON.parse(xmlhttp.responseText);
+    
+    
+                    var table = "<table border='1' id='menu-table' >"
+                    for (x in myObj) {
+                        table += "<tr> <td class=\"center\"> " + myObj[x].personName + "</td> <td class=\"center\">" + myObj[x].personPhone + "</td> </tr>";
+                    }
+                    table += "</table>"
+                    document.getElementById("PersonList").innerHTML = table;
+                };
+    }                
+         xmlhttp.open("GET", "/personList", true);
+         xmlhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+         xmlhttp.send();
+     function removePerson(req, res){
+            var product = {
+                name: document.getElementById('removeCustomer').value,
+            };
+            console.log(document.getElementById('removeCustomer').value);
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("removePerson").innerHTML = this.responseText;
+                };
+            };
+            xmlhttp.open("POST", "/removePerson", true);
+            xmlhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+            xmlhttp.send(JSON.stringify(product));
+        };     
+</script>
 </html>

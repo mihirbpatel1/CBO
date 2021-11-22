@@ -34,9 +34,18 @@ app.use('/', express.static("client",{"index":"index.html"}));
 app.get('/staff', (req,res)=>{
   res.sendFile(path.join(__dirname + '/staff.html'));
 } );
+app.get('/person', (req,res)=>{
+  res.sendFile(path.join(__dirname + '/person.html'));
+} );
 
 app.get('/staffList' , (req, res)=> {
   var viewDB = 'SELECT * FROM staff';
+  con.query(viewDB,(err, result )=>{
+   res.json(result);
+  });
+})
+app.get('/personList' , (req, res)=> {
+  var viewDB = 'SELECT * FROM person';
   con.query(viewDB,(err, result )=>{
    res.json(result);
   });
@@ -56,6 +65,20 @@ app.post('/add', function(req, res){
     console.log(req.body);
     
 } );
+app.post('/addPerson', function(req, res){
+  var name= req.body.name;
+  var phoneNum= req.body.phone;
+  
+  var addNew = "INSERT INTO person (personName, personPhone) VALUES('" + name + "', '"+ phoneNum + "')";
+  
+  con.query(addNew,(err, result)=>{
+   if(err){
+    console.log(err)
+   };
+  });
+  console.log(req.body);
+  
+} );
 app.post('/removeItem', (req, res) =>{
   var Item = req.body.name.trim();
 
@@ -68,7 +91,37 @@ app.post('/removeItem', (req, res) =>{
     };
      
   });
+  
 })
+app.post('/removePerson', (req, res) =>{
+  var Item = req.body.name.trim();
+
+  var sql = 'DELETE FROM person WHERE personName = ?'
+  console.log(Item);
+  con.query(sql, Item, (err, result) =>{
+    if (err) {
+      console.log(err)
+
+    };
+     
+  });
+  
+})
+// app.post('/update', (req, res) =>{
+//   var Item = req.body.name.trim();
+//   var newName = req.body.newName
+
+//   var sql = 'UPDATE staff SET StaffName = (' + newName + ' ) WHERE StaffName = Item'
+//   console.log(Item);
+//   con.query(sql, Item, (err, result) =>{
+//     if (err) {
+//       console.log(err)
+
+//     };
+     
+//   });
+  
+// })
 
 
 
