@@ -36,6 +36,38 @@
 
       
     </div>
+    <br>
+    <div >
+        <h1>Add Report</h1>
+        <label >Name:</label>
+        <input type='text' id='nameReport' />
+        <label >Report:</label>
+        <input type='text' id='addReport' />
+        <button type='button' value='Send' name='addReports' onclick='addReport()'>
+           Add Report
+        </button>
+
+      
+    </div>
+    <div>
+        <h1>Show Report</h1>
+        <label >Name:</label>
+        <input type='text' id='showReports' />
+        <button type='button' value='Send' name='showReports' onclick='viewReport()'>
+           Show Report
+        </button>
+        <table >
+            <tr>
+              <th>Name:</th>
+              <th>Phone #:</th>
+              <th>Phone #:</th>
+            
+            </tr>
+          
+          </table>
+          <p  id="ReportList"></p>
+
+    </div>
 </body>
 
 <script>
@@ -81,6 +113,41 @@
             xmlhttp.open("POST", "/removePerson", true);
             xmlhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
             xmlhttp.send(JSON.stringify(product));
-        };     
+        };    
+        function addReport(req, res){
+        var person ={
+            name: document.getElementById('nameReport').value,
+            report: document.getElementById('addReport').value
+        };
+        xmlhttp = new XMLHttpRequest();
+        
+        xmlhttp.open("POST", "/addReport", true);
+        xmlhttp.setRequestHeader("Content-type", "application/json;charset=UFT-8");
+        xmlhttp.send(JSON.stringify(person));
+    };
+    function viewReport(req, res){
+        var person ={
+            name: document.getElementById('showReports').value,
+            
+        };
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+    
+                    myObj = JSON.parse(xmlhttp.responseText);
+    
+    
+                    var table = "<table border='1' id='menu-table' >"
+                    for (x in myObj) {
+                        table += "<tr>  <td class=\"center\">" + myObj[x].des + "</td> </tr>";
+                    }
+                    table += "</table>"
+                    document.getElementById("ReportList").innerHTML = table;
+                };
+    }   
+        xmlhttp.open("POST", "/getReport", true);
+        xmlhttp.setRequestHeader("Content-type", "application/json;charset=UFT-8");
+        xmlhttp.send(JSON.stringify(person));
+    };
 </script>
 </html>

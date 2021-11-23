@@ -10,7 +10,7 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "Th6iynrmmu7",
+    password: "root",
     database: "CBO"
   });
   
@@ -107,21 +107,48 @@ app.post('/removePerson', (req, res) =>{
   });
   
 })
-// app.post('/update', (req, res) =>{
-//   var Item = req.body.name.trim();
-//   var newName = req.body.newName
-
-//   var sql = 'UPDATE staff SET StaffName = (' + newName + ' ) WHERE StaffName = Item'
-//   console.log(Item);
-//   con.query(sql, Item, (err, result) =>{
-//     if (err) {
-//       console.log(err)
-
-//     };
-     
-//   });
+app.post('/addReport', function(req, res){
+  var name= req.body.name;
+  var addReport= req.body.report;
   
-// })
+  // var addNew = "INSERT INTO person (personName = ? ) VALUES('','','" + addReport + "'); "
+
+  
+  con.query("UPDATE person SET des = des + ?   WHERE Personid = ? " , [addReport,name] ,(err, result)=>{
+   if(err){
+    console.log(err)
+   };
+  });
+  console.log(req.body);
+  
+} );
+
+app.post('/getReport' , (req, res)=> {
+  var name = req.body.name;
+  
+  
+  console.log(req.body)
+  con.query('SELECT * FROM person WHERE personName = ?', [name], (err, result )=>{
+   res.json(result);
+  });
+ 
+})
+app.post('/update', (req, res) =>{
+  var Item = req.body.number;
+  var newName = req.body.newName
+  var phoneNum = req.body.phoneNum;
+
+  
+  console.log(Item);
+  con.query("UPDATE  staff SET staffName = ? ,  staffPhone = ? WHERE Personid = ? " , [newName, phoneNum,Item] ,(err, result) =>{
+    if (err) {
+      console.log(err)
+
+    };
+     
+  });
+  
+})
 
 
 
