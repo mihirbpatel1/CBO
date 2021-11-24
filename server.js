@@ -114,7 +114,7 @@ app.post('/addReport', function(req, res){
   // var addNew = "INSERT INTO person (personName = ? ) VALUES('','','" + addReport + "'); "
 
   
-  con.query("UPDATE person SET des = des + ?   WHERE Personid = ? " , [addReport,name] ,(err, result)=>{
+  con.query("UPDATE person SET des = ?   WHERE Personid = ? " , [addReport,name] ,(err, result)=>{
    if(err){
     console.log(err)
    };

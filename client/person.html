@@ -4,7 +4,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <a href="/staff.html" >Go to Staff Page</a>
 </head>
+<style>
+        table{
+			border-collapse: collapse;
+			width: 25%; 
+		}
+	th,td{
+		border: 2px solid green; 
+		padding: 15px;
+	}
+    .removeStaff{
+        color: blue;
+        position:absolute; 
+        left:600px; top:300px;
+    }
+</style>
 <body>
     <div>
         <label>Add New Customer:</label>
@@ -15,14 +31,7 @@
             </form>
     </div>
     <hr>
-    <table >
-        <tr>
-          <th>Name:</th>
-          <th>Phone #:</th>
-        
-        </tr>
-      
-      </table>
+    <h1>Person List:</h1>
       <p  id="PersonList"></p>
     <br>
     <br>
@@ -39,7 +48,7 @@
     <br>
     <div >
         <h1>Add Report</h1>
-        <label >Name:</label>
+        <label >Id#:</label>
         <input type='text' id='nameReport' />
         <label >Report:</label>
         <input type='text' id='addReport' />
@@ -56,15 +65,7 @@
         <button type='button' value='Send' name='showReports' onclick='viewReport()'>
            Show Report
         </button>
-        <table >
-            <tr>
-              <th>Name:</th>
-              <th>Phone #:</th>
-              <th>Phone #:</th>
-            
-            </tr>
-          
-          </table>
+       
           <p  id="ReportList"></p>
 
     </div>
@@ -88,9 +89,9 @@
                     myObj = JSON.parse(xmlhttp.responseText);
     
     
-                    var table = "<table border='1' id='menu-table' >"
+                    var table = "<table <table ><tr><th>Id:</th><th>Name:</th><th>Phone#:</th></tr> "
                     for (x in myObj) {
-                        table += "<tr> <td class=\"center\"> " + myObj[x].personName + "</td> <td class=\"center\">" + myObj[x].personPhone + "</td> </tr>";
+                        table += "<tr><td> " + myObj[x].Personid + "</td> <td> " + myObj[x].personName + "</td> <td class=\"center\">" + myObj[x].personPhone + "</td> </tr>";
                     }
                     table += "</table>"
                     document.getElementById("PersonList").innerHTML = table;
@@ -137,9 +138,9 @@
                     myObj = JSON.parse(xmlhttp.responseText);
     
     
-                    var table = "<table border='1' id='menu-table' >"
+                    var table = "<table <tr><th>DATA</th></tr> "
                     for (x in myObj) {
-                        table += "<tr>  <td class=\"center\">" + myObj[x].des + "</td> </tr>";
+                        table += "<tr>  <td >" + myObj[x].des + "</td> </tr>";
                     }
                     table += "</table>"
                     document.getElementById("ReportList").innerHTML = table;
